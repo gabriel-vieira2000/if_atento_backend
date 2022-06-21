@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
-    "knex:migrate": "knex --knexfile knexfile.ts migrate:latest",
-    "knex:seed" : "knex --knexfile knexfile.ts seed:run"
+    "knex:migrate": "knex --transpileOnly --ignore-watch node_modules --knexfile knexfile.ts migrate:latest",
+    "knex:seed": "knex --knexfile knexfile.ts seed:run"
   },
   "author": "Gabriel Vieira Cardoso",
   "license": "ISC",
   "dependencies": {
+    "@types/cors": "^2.8.12",
+    "cors": "^2.8.5",
     "express": "^4.18.1",
     "knex": "^2.1.0",
     "sqlite3": "^5.0.8"

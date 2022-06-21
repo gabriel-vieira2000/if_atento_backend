@@ -1,23 +1,27 @@
 import express from "express";
-import knex, {Knex} from "knex";
+import knex from "./database/connection";
 
 const routes = express.Router();
 
-routes.get("/", (request,response) => {
+routes.get("/patologias", async (request,response) => {
     console.log("Servidor Subiu com Sucesso!");
-    response.json({
-        setor:"Cooperativa",
-        tipoPatologia:"Infiltração",
-        tempoPatologia:"Viu pela primeira vez",
-        urgencia:"Sim",
-    });
+    const patologias = await knex('Patologia').select('*');
+    response.json(patologias);
 });
 
-routes.post("/registraPatologiaEncontrada", (request, response) => {
-    const dadosPatologia = request.body; 
+routes.post("/patologias", async (request, response) => {
+    const {
+        nomePatologia,
+        descricaoPatologia
+    } = request.body; 
 
-    console.log(dadosPatologia['setor']);
-    return response.json(dadosPatologia);
+    await knex('Patologia').insert({
+        nomePatologia,
+        descricaoPatologia
+    });
+
+    const patologias = await knex('Patologia').select('*')
+    return response.json(patologias);
 });
 
 export default routes;
